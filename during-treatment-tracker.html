@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cancer Daily Tracker - During Treatment</title>
+    <link href="https://fonts.googleapis.com/css2?family=Literata:wght@400;600;700&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #2d5f5d;
+            --primary-light: #3d7f7d;
+            --accent: #b8926a;
+            --bg: #faf9f7;
+            --card-bg: #ffffff;
+            --text: #2c3e3c;
+            --text-light: #6b7c7a;
+            --border: #e5e3df;
+            --shadow: rgba(45, 95, 93, 0.08);
+        }
+
+        body {
+            font-family: 'Source Sans 3', sans-serif;
+            background: linear-gradient(135deg, #faf9f7 0%, #f5f3ef 100%);
+            color: var(--text);
+            line-height: 1.6;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 30px;
+            border-bottom: 2px solid var(--border);
+        }
+
+        h1 {
+            font-family: 'Literata', serif;
+            font-size: 2.5em;
+            color: var(--primary);
+            font-weight: 700;
+            margin-bottom: 10px;
+            letter-spacing: -0.5px;
+        }
+
+        .subtitle {
+            font-size: 1.1em;
+            color: var(--text-light);
+            font-weight: 300;
+        }
+
+        .date-section {
+            background: var(--card-bg);
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 8px var(--shadow);
+            border-left: 4px solid var(--accent);
+        }
+
+        .date-section label {
+            font-weight: 600;
+            color: var(--primary);
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .date-section input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            font-size: 1em;
+            font-family: inherit;
+            transition: border-color 0.3s;
+        }
+
+        .date-section input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .section {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 8px var(--shadow);
+            animation: slideIn 0.5s ease-out backwards;
+        }
+
+        .section:nth-child(2) { animation-delay: 0.1s; }
+        .section:nth-child(3) { animation-delay: 0.2s; }
+        .section:nth-child(4) { animation-delay: 0.3s; }
+        .section:nth-child(5) { animation-delay: 0.4s; }
+        .section:nth-child(6) { animation-delay: 0.5s; }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .section-title {
+            font-family: 'Literata', serif;
+            font-size: 1.4em;
+            color: var(--primary);
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid var(--border);
+            font-weight: 600;
+        }
+
+        .two-column {
+            display: grid;
+            grid-template-columns: 240px 1fr;
+            gap: 20px;
+            align-items: center;
+            margin-bottom: 18px;
+            padding: 12px 0;
+            border-bottom: 1px solid #f5f3ef;
+        }
+
+        .two-column:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+
+        .label {
+            font-weight: 600;
+            color: var(--primary);
+            font-size: 0.95em;
+        }
+
+        .input-area input,
+        .input-area select,
+        .input-area textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border: 2px solid var(--border);
+            border-radius: 6px;
+            font-size: 0.95em;
+            font-family: inherit;
+            transition: all 0.3s;
+            background: #fafafa;
+        }
+
+        .input-area input:focus,
+        .input-area select:focus,
+        .input-area textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: white;
+            box-shadow: 0 0 0 3px rgba(45, 95, 93, 0.1);
+        }
+
+        .input-area textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+
+        .scale-input {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .scale-input input[type="range"] {
+            flex: 1;
+            height: 8px;
+            border-radius: 4px;
+            background: linear-gradient(to right, var(--primary-light) 0%, var(--accent) 100%);
+            border: none;
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        .scale-input input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--primary);
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            transition: transform 0.2s;
+        }
+
+        .scale-input input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+        }
+
+        .scale-input input[type="range"]::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--primary);
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .scale-value {
+            font-weight: 600;
+            color: var(--primary);
+            min-width: 30px;
+            text-align: center;
+            font-size: 1.1em;
+        }
+
+        .alert-box {
+            background: #fff4e6;
+            border: 2px solid #f59e0b;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 30px;
+        }
+
+        .alert-box label {
+            font-weight: 600;
+            color: #c2410c;
+            display: block;
+            margin-bottom: 10px;
+            font-size: 1.05em;
+        }
+
+        .alert-box textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #fed7aa;
+            border-radius: 6px;
+            min-height: 100px;
+            font-family: inherit;
+            background: white;
+        }
+
+        .helper-text {
+            font-size: 0.85em;
+            color: var(--text-light);
+            font-style: italic;
+            margin-top: 5px;
+        }
+
+        button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 14px 32px;
+            border-radius: 8px;
+            font-size: 1.05em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: inherit;
+            box-shadow: 0 4px 6px rgba(45, 95, 93, 0.2);
+            margin: 10px 5px;
+        }
+
+        button:hover {
+            background: var(--primary-light);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(45, 95, 93, 0.3);
+        }
+
+        .button-group {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .print-button {
+            background: var(--accent);
+        }
+
+        .print-button:hover {
+            background: #a58159;
+        }
+
+        @media print {
+            body {
+                background: white;
+                padding: 20px;
+            }
+            .section {
+                box-shadow: none;
+                border: 1px solid #ddd;
+                page-break-inside: avoid;
+            }
+            button {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2em;
+            }
+
+            .two-column {
+                grid-template-columns: 1fr;
+                gap: 8px;
+            }
+
+            .section {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Cancer Daily Tracker</h1>
+            <p class="subtitle">During Treatment - Daily Log</p>
+        </header>
+
+        <div class="date-section">
+            <label for="date">Date</label>
+            <input type="date" id="date" required>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">Treatment & Medication</h2>
+            
+            <div class="two-column">
+                <div class="label">Treatment Type</div>
+                <div class="input-area">
+                    <input type="text" placeholder="e.g., Chemotherapy, Radiation">
+                </div>
+            </div>
+
+            <div class="two-column">
+                <div class="label">Medication Taken Today</div>
+                <div class="input-area">
+                    <select>
+                        <option value="">Select...</option>
+                        <option value="yes">Yes</option>
+                        <option value="no">No</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="two-column">
+                <div class="label">Medication Times</div>
+                <div class="input-area">
+                    <input type="text" placeholder="e.g., 8am, 2pm, 8pm">
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">Physical Symptoms</h2>
+            
+            <div class="two-column">
+                <div class="label">Pain Level (0-10)</div>
+                <div class="input-area">
+                    <div class="scale-input">
+                        <input type="range" min="0" max="10" value="0" id="pain" oninput="document.getElementById('pain-val').textContent = this.value">
+                        <span class="scale-value" id="pain-val">0</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="two-column">
+                <div class="label">Fatigue Level (0-10)</div>
+                <div class="input-area">
+                    <div class="scale-input">
+                        <input type="range" min="0" max="10" value="0" id="fatigue" oninput="document.getElementById('fatigue-val').textContent = this.value">
+                        <span class="scale-value" id="fatigue-val">0</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="two-column">
+                <div class="label">Nausea Level (0-10)</div>
+                <div class="input-area">
+                    <div class="scale-input">
+                        <input type="range" min="0" max="10" value="0" id="nausea" oninput="document.getElementById('nausea-val').textContent = this.value">
+                        <span class="scale-value" id="nausea-val">0</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="two-column">
+                <div class="label">Appetite</div>
+                <div class="input-area">
+                    <select>
+                        <option value="">Select...</option>
+                        <option value="poor">Poor</option>
+                        <option value="ok">OK</option>
+                        <option value="good">Good</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">Daily Wellness</h2>
+            
+            <div class="two-column">
+                <div class="label">Hydration (cups of water)</div>
+                <div class="input-area">
+                    <input type="number" min="0" placeholder="Number of cups">
+                </div>
+            </div>
+
+            <div class="two-column">
+                <div class="label">Sleep (hours)</div>
+                <div class="input-area">
+                    <input type="number" min="0" max="24" step="0.5" placeholder="Hours slept">
+                </div>
+            </div>
+
+            <div class="two-column">
+                <div class="label">Sleep Quality (1-5)</div>
+                <div class="input-area">
+                    <div class="scale-input">
+                        <input type="range" min="1" max="5" value="3" id="sleep-quality" oninput="document.getElementById('sleep-val').textContent = this.value">
+                        <span class="scale-value" id="sleep-val">3</span>
+                    </div>
+                    <div class="helper-text">1 = Very Poor, 5 = Excellent</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">Emotional & Mental Health</h2>
+            
+            <div class="two-column">
+                <div class="label">Mood Today</div>
+                <div class="input-area">
+                    <input type="text" placeholder="Describe your mood in a few words">
+                </div>
+            </div>
+
+            <div class="two-column">
+                <div class="label">Anxiety Level (0-10)</div>
+                <div class="input-area">
+                    <div class="scale-input">
+                        <input type="range" min="0" max="10" value="0" id="anxiety" oninput="document.getElementById('anxiety-val').textContent = this.value">
+                        <span class="scale-value" id="anxiety-val">0</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="two-column">
+                <div class="label">Depression Level (0-10)</div>
+                <div class="input-area">
+                    <div class="scale-input">
+                        <input type="range" min="0" max="10" value="0" id="depression" oninput="document.getElementById('depression-val').textContent = this.value">
+                        <span class="scale-value" id="depression-val">0</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="two-column">
+                <div class="label">Motivation Level (0-10)</div>
+                <div class="input-area">
+                    <div class="scale-input">
+                        <input type="range" min="0" max="10" value="5" id="motivation" oninput="document.getElementById('motivation-val').textContent = this.value">
+                        <span class="scale-value" id="motivation-val">5</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="two-column">
+                <div class="label">Faith/Spiritual Strength (1-5)</div>
+                <div class="input-area">
+                    <div class="scale-input">
+                        <input type="range" min="1" max="5" value="3" id="faith" oninput="document.getElementById('faith-val').textContent = this.value">
+                        <span class="scale-value" id="faith-val">3</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">Activity & Exercise</h2>
+            
+            <div class="two-column">
+                <div class="label">Exercise Type</div>
+                <div class="input-area">
+                    <input type="text" placeholder="e.g., Walking, Yoga, Stretching">
+                </div>
+            </div>
+
+            <div class="two-column">
+                <div class="label">Exercise Duration (minutes)</div>
+                <div class="input-area">
+                    <input type="number" min="0" placeholder="Minutes">
+                </div>
+            </div>
+
+            <div class="two-column">
+                <div class="label">Steps (if tracking)</div>
+                <div class="input-area">
+                    <input type="number" min="0" placeholder="Number of steps">
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">Support & Notes</h2>
+            
+            <div class="two-column">
+                <div class="label">Did I Need Support Today?</div>
+                <div class="input-area">
+                    <select>
+                        <option value="">Select...</option>
+                        <option value="yes">Yes</option>
+                        <option value="no">No</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="two-column">
+                <div class="label">Type of Support Needed</div>
+                <div class="input-area">
+                    <input type="text" placeholder="e.g., Emotional, Physical, Practical">
+                </div>
+            </div>
+
+            <div class="two-column">
+                <div class="label">Notes for Doctor / Questions</div>
+                <div class="input-area">
+                    <textarea placeholder="Write any questions or concerns to discuss with your doctor..."></textarea>
+                </div>
+            </div>
+        </div>
+
+        <div class="alert-box">
+            <label>🚨 Any Red Flag Symptoms Today?</label>
+            <div class="helper-text" style="margin-bottom: 10px;">Fever 38°C+, severe pain, repeated vomiting, breathing issues, unusual bleeding</div>
+            <textarea placeholder="Describe any concerning symptoms..."></textarea>
+        </div>
+
+        <div class="button-group">
+            <button onclick="window.print()" class="print-button">Print This Log</button>
+            <button onclick="saveData()">Save to Computer</button>
+            <button onclick="clearForm()">Clear Form</button>
+        </div>
+    </div>
+
+    <script>
+        // Set today's date by default
+        document.getElementById('date').valueAsDate = new Date();
+
+        function clearForm() {
+            if (confirm('Are you sure you want to clear all entries?')) {
+                document.querySelectorAll('input, select, textarea').forEach(elem => {
+                    if (elem.type === 'range') {
+                        elem.value = elem.min;
+                        const valId = elem.id + '-val';
+                        const valSpan = document.getElementById(valId);
+                        if (valSpan) valSpan.textContent = elem.value;
+                    } else if (elem.type !== 'date') {
+                        elem.value = '';
+                    }
+                });
+            }
+        }
+
+        function saveData() {
+            const date = document.getElementById('date').value || 'no-date';
+            const data = {
+                date: date,
+                treatment: {},
+                symptoms: {},
+                wellness: {},
+                mental: {},
+                activity: {},
+                support: {}
+            };
+
+            // Collect all form data
+            document.querySelectorAll('input, select, textarea').forEach(elem => {
+                if (elem.value && elem.id !== 'date') {
+                    data[elem.closest('.section')?.querySelector('.section-title')?.textContent || 'other'] = 
+                        data[elem.closest('.section')?.querySelector('.section-title')?.textContent || 'other'] || {};
+                }
+            });
+
+            // Create downloadable file
+            const dataStr = JSON.stringify(data, null, 2);
+            const dataBlob = new Blob([dataStr], {type: 'application/json'});
+            const url = URL.createObjectURL(dataBlob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `cancer-tracker-treatment-${date}.json`;
+            link.click();
+            URL.revokeObjectURL(url);
+        }
+    </script>
+</body>
+</html>

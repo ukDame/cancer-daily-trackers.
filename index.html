@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free Cancer Daily Trackers</title>
+    <link href="https://fonts.googleapis.com/css2?family=Literata:wght@400;600;700&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #2d5f5d;
+            --primary-light: #3d7f7d;
+            --accent: #b8926a;
+            --bg: #faf9f7;
+            --card-bg: #ffffff;
+            --text: #2c3e3c;
+            --text-light: #6b7c7a;
+            --border: #e5e3df;
+            --shadow: rgba(45, 95, 93, 0.08);
+        }
+
+        body {
+            font-family: 'Source Sans 3', sans-serif;
+            background: linear-gradient(135deg, #faf9f7 0%, #f5f3ef 100%);
+            color: var(--text);
+            line-height: 1.6;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+            padding-bottom: 30px;
+        }
+
+        h1 {
+            font-family: 'Literata', serif;
+            font-size: 3em;
+            color: var(--primary);
+            font-weight: 700;
+            margin-bottom: 15px;
+            letter-spacing: -1px;
+            line-height: 1.2;
+        }
+
+        .subtitle {
+            font-size: 1.3em;
+            color: var(--text-light);
+            font-weight: 300;
+            margin-bottom: 20px;
+        }
+
+        .intro-text {
+            font-size: 1.1em;
+            color: var(--text);
+            max-width: 700px;
+            margin: 0 auto 20px;
+            line-height: 1.8;
+        }
+
+        .free-badge {
+            display: inline-block;
+            background: var(--accent);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 0.95em;
+            margin-top: 10px;
+            letter-spacing: 0.5px;
+        }
+
+        .trackers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .tracker-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 4px 20px var(--shadow);
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            animation: slideUp 0.6s ease-out backwards;
+        }
+
+        .tracker-card:first-child {
+            animation-delay: 0.2s;
+        }
+
+        .tracker-card:last-child {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .tracker-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(45, 95, 93, 0.15);
+            border-color: var(--primary-light);
+        }
+
+        .tracker-title {
+            font-family: 'Literata', serif;
+            font-size: 1.8em;
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .tracker-description {
+            color: var(--text);
+            margin-bottom: 20px;
+            font-size: 1.05em;
+            line-height: 1.7;
+        }
+
+        .features-list {
+            list-style: none;
+            margin-bottom: 30px;
+        }
+
+        .features-list li {
+            padding: 8px 0;
+            color: var(--text);
+            position: relative;
+            padding-left: 25px;
+        }
+
+        .features-list li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .button {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 15px 35px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.05em;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(45, 95, 93, 0.3);
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+
+        .button:hover {
+            background: var(--primary-light);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(45, 95, 93, 0.4);
+        }
+
+        .button.secondary {
+            background: var(--accent);
+        }
+
+        .button.secondary:hover {
+            background: #a58159;
+        }
+
+        .features-section {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 40px;
+            margin-bottom: 40px;
+            box-shadow: 0 4px 20px var(--shadow);
+        }
+
+        .features-section h2 {
+            font-family: 'Literata', serif;
+            font-size: 2em;
+            color: var(--primary);
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .feature-item {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .feature-icon {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .feature-item h3 {
+            color: var(--primary);
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        .feature-item p {
+            color: var(--text-light);
+            font-size: 0.95em;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 30px;
+            color: var(--text-light);
+            font-size: 0.95em;
+        }
+
+        .footer a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.2em;
+            }
+
+            .trackers-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .tracker-card {
+                padding: 30px 25px;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Free Cancer Daily Trackers</h1>
+            <p class="subtitle">Professional health tracking tools for your cancer journey</p>
+            <p class="intro-text">
+                Take control of your treatment with these comprehensive daily logs. 
+                Track symptoms, medications, mental health, and more. Perfect for sharing with your care team.
+            </p>
+            <span class="free-badge">100% FREE</span>
+        </header>
+
+        <div class="trackers-grid">
+            <!-- During Treatment Card -->
+            <div class="tracker-card">
+                <h2 class="tracker-title">During Treatment</h2>
+                <p class="tracker-description">
+                    Comprehensive daily tracker for active cancer treatment including chemotherapy, radiation, or immunotherapy.
+                </p>
+                <ul class="features-list">
+                    <li>Track pain, fatigue, and nausea levels</li>
+                    <li>Monitor medications and timing</li>
+                    <li>Log mental health and mood</li>
+                    <li>Record sleep quality and appetite</li>
+                    <li>Document exercise and activity</li>
+                    <li>Note questions for your doctor</li>
+                    <li>Red flag symptom alerts</li>
+                </ul>
+                <div>
+                    <a href="during-treatment-tracker.html" class="button">Open Online Tracker</a>
+                    <a href="Cancer_Daily_Tracker_During_Treatment.pdf" class="button secondary" download>Download PDF</a>
+                </div>
+            </div>
+
+            <!-- Post Treatment Card -->
+            <div class="tracker-card">
+                <h2 class="tracker-title">Post Treatment / Survivorship</h2>
+                <p class="tracker-description">
+                    Simplified daily tracker for cancer survivors monitoring their health during recovery and beyond.
+                </p>
+                <ul class="features-list">
+                    <li>Track ongoing symptoms</li>
+                    <li>Monitor weight and wellness</li>
+                    <li>Log mental health progress</li>
+                    <li>Record exercise and activity</li>
+                    <li>Note upcoming appointments</li>
+                    <li>Reflect on your journey</li>
+                    <li>Document support needs</li>
+                </ul>
+                <div>
+                    <a href="post-treatment-tracker.html" class="button">Open Online Tracker</a>
+                    <a href="Cancer_Daily_Tracker_Post_Treatment.pdf" class="button secondary" download>Download PDF</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="features-section">
+            <h2>Why Use These Trackers?</h2>
+            <div class="features-grid">
+                <div class="feature-item">
+                    <div class="feature-icon">📊</div>
+                    <h3>Better Communication</h3>
+                    <p>Share clear, organized data with your care team at every appointment</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">🎯</div>
+                    <h3>Identify Patterns</h3>
+                    <p>Spot trends in symptoms, side effects, and wellness over time</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">💪</div>
+                    <h3>Stay Empowered</h3>
+                    <p>Take an active role in managing your health and treatment</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">🌟</div>
+                    <h3>Two Formats</h3>
+                    <p>Use online with interactive sliders or print as a PDF</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>
+                These trackers are provided free of charge to support cancer patients and survivors worldwide.<br>
+                Share these resources with anyone who might benefit from them.
+            </p>
+            <p style="margin-top: 20px;">
+                <strong>Questions or feedback?</strong> Find more resources on our <a href="#">YouTube channel</a>
+            </p>
+        </div>
+    </div>
+</body>
+</html>
